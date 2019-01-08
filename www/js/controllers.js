@@ -53,4 +53,36 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
+})
+.controller('testCtrl', function($scope, $stateParams) {
+  $scope.connect= function(){
+    cordova.plugins.CordovaMqTTPlugin.connect({
+      url:"tcp://m15.cloudmqtt.com", //a public broker used for testing purposes only. Try using a self hosted broker for production.
+      port:13738,
+      clientId:"MY_CLIENT_ID_20160814",
+      connectionTimeout:3000,
+      willTopicConfig:{
+        qos:2,
+        retain:true,
+        topic:"ebtest",
+        payload:"Messaggio di prova"
+      },
+      username:"crzllkoq",
+      password:'76Jm1o3A3gKZ',
+      keepAlive:60,
+      success:function(s){
+        console.log("connectess");
+      },
+      error:function(e){
+        console.log("connectr");
+      },
+      onConnectionLost:function (){
+        console.log("disconnect");
+        var alertPopup = $ionicPopup.alert({
+          title: 'error',
+          template: 'conneciton lost'
+        });
+      }
+      });
+  };
 });
